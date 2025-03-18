@@ -1,0 +1,21 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: blogapp-ingress
+  namespace: webapps
+  annotations:
+    kubernetes.io/ingress.class: "nginx"
+    nginx.ingress.kubernetes.io/upstream-hash-by: "$remote_addr"
+spec:
+  ingressClassName: nginx
+  rules:
+  - host: test.foodenginepos.com
+    http:
+      paths:
+      - path: /blog
+        pathType: Prefix
+        backend:
+          service:
+            name: blogapp-svc
+            port:
+              number: 8080
